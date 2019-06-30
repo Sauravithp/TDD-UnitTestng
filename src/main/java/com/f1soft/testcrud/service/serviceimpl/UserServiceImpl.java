@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     private UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 }
                 data.setName(user.getName());
             }
-            if (!user.getAddress().equals(data.getName())) {
+            if (!data.getAddress().equals(user.getAddress())) {
                 data.setAddress(user.getAddress());
             }
             return userRepository.save(data);
@@ -52,19 +53,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> fetchAllUser() {
-        if(userRepository.findAllUsers() == null){
-            throw new DataNotFoundException("Data does not exists");
-        }else {
-            return userRepository.findAllUsers();
-        }
+        return userRepository.findAllUsers().orElseThrow(() -> new DataNotFoundException("Data does not exists"));
     }
+
 
     @Override
     public Boolean deleteUserById(long userId) {
-        User data=userRepository.findUserByID(userId);
-        if(userRepository.findUserByID(userId) == null){
+        User data = userRepository.findUserByID(userId);
+        if (userRepository.findUserByID(userId) == null) {
             throw new DataNotFoundException("Data not found");
-        }else {
+        } else {
             userRepository.delete(data);
             return true;
         }

@@ -56,11 +56,11 @@ public class UserServiceImplTest {
 
     }
 
-    @Test
-    public void fetchAllUsers(){
-        fetchAllUsers_ShouldReturnEmptyList();
-        fetchAllUsers_ShouldReturnList();
-    }
+//    @Test
+//    public void fetchAllUsers(){
+//        fetchAllUsers_ShouldReturnEmptyList();
+//        fetchAllUsers_ShouldReturnList();
+//    }
 
     @Test
     public void deleteUserById(){
@@ -172,7 +172,6 @@ public class UserServiceImplTest {
         verify(userRepository).save(databaseUser);
     }
 
-
     @Test
     public void fetchAllUsers_ShouldReturnEmptyList(){
         thrown.expect(DataNotFoundException.class);
@@ -183,18 +182,31 @@ public class UserServiceImplTest {
         userService.fetchAllUser();
 
     }
-
     @Test
-    public void fetchAllUsers_ShouldReturnList(){
+    public void  fetchAllUsers_ShouldReturnList(){
         List<User> userList= new ArrayList<>();
         User databaseUser = User.builder().id(1L).name("sauravi").address("baluwatar").build();
         userList.add(databaseUser);
 
-        given(userRepository.findAllUsers()).willReturn(userList);
+        given(userRepository.findAllUsers()).willReturn(java.util.Optional.ofNullable(userList));
 
         assertThat(userService.fetchAllUser()).isEqualTo(userList);
 
+
+
     }
+//
+//    @Test
+//    public void fetchAllUsers_ShouldReturnList(){
+//        List<User> userList= new ArrayList<>();
+//        User databaseUser = User.builder().id(1L).name("sauravi").address("baluwatar").build();
+//        userList.add(databaseUser);
+//
+//        given(userRepository.findAllUsers()).willReturn(userList);
+//
+//        assertThat(userService.fetchAllUser()).isEqualTo(userList);
+//
+//    }
 
 
     @Test

@@ -8,6 +8,5 @@ public interface UserService {
     User createUser(User user);
     User updateUser(User user);
     List<User> fetchAllUser();
-
     Boolean deleteUserById(long userId);
 }
